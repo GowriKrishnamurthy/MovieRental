@@ -8,7 +8,7 @@ namespace MovieRental.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.MembershipTypes",
+                "dbo.MembershipType",
                 c => new
                     {
                         Id = c.Byte(nullable: false),
@@ -20,15 +20,15 @@ namespace MovieRental.Migrations
             
             AddColumn("dbo.Customers", "MembershipTypeId", c => c.Byte(nullable: false));
             CreateIndex("dbo.Customers", "MembershipTypeId");
-            AddForeignKey("dbo.Customers", "MembershipTypeId", "dbo.MembershipTypes", "Id", cascadeDelete: true);
+            AddForeignKey("dbo.Customers", "MembershipTypeId", "dbo.MembershipType", "Id", cascadeDelete: true);
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Customers", "MembershipTypeId", "dbo.MembershipTypes");
+            DropForeignKey("dbo.Customers", "MembershipTypeId", "dbo.MembershipType");
             DropIndex("dbo.Customers", new[] { "MembershipTypeId" });
             DropColumn("dbo.Customers", "MembershipTypeId");
-            DropTable("dbo.MembershipTypes");
+            DropTable("dbo.MembershipType");
         }
     }
 }
