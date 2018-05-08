@@ -9,7 +9,7 @@ namespace MovieRental.Controllers
 {
     public class CustomerController : Controller
     {
-        // GET: Customer
+        // Index method to show all customers
         public ViewResult Index()
         {
             var customers = GetCustomers();
@@ -23,5 +23,20 @@ namespace MovieRental.Controllers
             new Customer{Id=2,Name="John Smith"}
             };
         }
+        // Details method to show details of each customer id
+        public ActionResult Details(int id)
+        {
+            /* 
+             * SingleOrDefault - Returns the only element of a sequence, or a default value if the sequence is empty; 
+             * this method throws an exception if there is more than one element in the sequence.
+            */
+            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+
+            if (customer == null)
+                return HttpNotFound();
+
+            return View(customer);
+        }
+
     }
 }
