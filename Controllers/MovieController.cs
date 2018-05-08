@@ -10,6 +10,22 @@ namespace MovieRental.Controllers
 {
     public class MovieController : Controller
     {
+        //Adding a new view result to be called from Navbar link
+        public ViewResult Index()
+        {
+            var movies = GetMovies();
+
+            return View(movies);
+        }
+        private IEnumerable<Movie> GetMovies()
+        {
+            return new List<Movie>
+            {
+                new Movie { Id = 1, Name = "Kung Fu Panda Part 1" },
+                new Movie { Id = 2, Name = "Avengers" }
+            };
+        }
+
         // GET: Movie
         public ActionResult AllMovies()
         {
