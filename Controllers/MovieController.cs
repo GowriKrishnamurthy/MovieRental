@@ -1,4 +1,5 @@
 ﻿using MovieRental.Models;
+using MovieRental.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,17 @@ namespace MovieRental.Controllers
         // GET: Movie
         public ActionResult AllMovies()
         {
-            var movie = new Movie () { Name = "Kung Fu Panda" };
-            return View(movie);
+            var movie = new Movie() { Name = "Kung Fu Panda" };
+            var customers = new List<Customer>
+            {new Customer{Name="Customer 1"},
+            new Customer{Name="Customer 2"}};
+
+            var movieCustCombo = new AllMoviesViewModel
+            {
+                Movie = movie,
+                Customers = customers
+            };
+            return View(movieCustCombo);
         }
     }
 }
