@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace MovieRental.Controllers
 {
@@ -24,7 +25,7 @@ namespace MovieRental.Controllers
         public ViewResult Index()
         {
             //var customers = GetCustomers();
-            var customers = _context.Customers.ToList();
+            var customers = _context.Customers.Include(c => c.MembershipType).ToList();   
             return View(customers);
         }
         private IEnumerable<Customer> GetCustomers()
@@ -42,8 +43,8 @@ namespace MovieRental.Controllers
              * SingleOrDefault - Returns the only element of a sequence, or a default value if the sequence is empty; 
              * this method throws an exception if there is more than one element in the sequence.
             */
-            //var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+            //var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
                 return HttpNotFound();
