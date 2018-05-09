@@ -10,9 +10,21 @@ namespace MovieRental.Controllers
     public class CustomerController : Controller
     {
         // Index method to show all customers
+        private ApplicationDbContext _context;
+        public CustomerController()
+        {
+            _context = new ApplicationDbContext();
+        }
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
+        // Index method to show all customers from Customer table
         public ViewResult Index()
         {
-            var customers = GetCustomers();
+            //var customers = GetCustomers();
+            var customers = _context.Customers.ToList();
             return View(customers);
         }
         private IEnumerable<Customer> GetCustomers()
@@ -30,7 +42,8 @@ namespace MovieRental.Controllers
              * SingleOrDefault - Returns the only element of a sequence, or a default value if the sequence is empty; 
              * this method throws an exception if there is more than one element in the sequence.
             */
-            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+            //var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
                 return HttpNotFound();
