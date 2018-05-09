@@ -24,17 +24,10 @@ namespace MovieRental.Controllers
         // Index method to show all customers from Customer table
         public ViewResult Index()
         {
-            //var customers = GetCustomers();
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();   
+            // Include data from 2 tables - customer and Membership
+             var customers = _context.Customer.ToList();
+        //var customers = _context.Customer.Include(c => c.MembershipType);
             return View(customers);
-        }
-        private IEnumerable<Customer> GetCustomers()
-        {
-            return new List<Customer>
-            {
-            new Customer{Id=1,Name="James Williams"},
-            new Customer{Id=2,Name="John Smith"}
-            };
         }
         // Details method to show details of each customer id
         public ActionResult Details(int id)
@@ -43,8 +36,7 @@ namespace MovieRental.Controllers
              * SingleOrDefault - Returns the only element of a sequence, or a default value if the sequence is empty; 
              * this method throws an exception if there is more than one element in the sequence.
             */
-            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
-            //var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customer.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
                 return HttpNotFound();
