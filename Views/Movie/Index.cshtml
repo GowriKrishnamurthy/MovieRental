@@ -8,33 +8,41 @@
         different data structure, as long as it is enumerable, our view code
         will remain unchanged.
 *@
-
-
-
 @{
     ViewBag.Title = "Movies";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>
     Movies
 </h2>
+<p>
+    @Html.Partial("_CreateButtonPartial")
+</p>
 
-
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>Movie</th>
-            <th>Genre</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var movie in Model)
+@if (!Model.Any())
+{
+    <p>We don't have any movies yet.</p>
+}
+else
 {
 
-    <tr>
-        <td>@Html.ActionLink(movie.Name, "Details", "Movie", new { id = movie.Id }, null)</td>
-        <td>@movie.Genre.Name</td>
-    </tr>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Genre</th>
+                <th> Edit Details</th>
+           </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(movie.Name, "Details", "Movie", new { id = movie.Id }, null)</td>
+                    <td>@movie.Genre.Name</td>
+                    <td>@Html.Partial("_EditButtonPartial", movie.Id)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-</table>

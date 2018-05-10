@@ -1,0 +1,46 @@
+﻿@model MovieRental.ViewModels.MovieFormViewModel
+
+@{
+    @*The title of the page changes according to the action New/Edit
+    because we use the same Form for both actions
+
+    var title = (Model.Movie == null) ? "New Movie" : "Edit Movie";
+    *@
+    ViewBag.Title = Model.title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.title</h2>
+
+@using (Html.BeginForm("Save", "Movie"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m=>m.Movie.Name)
+        @Html.TextBoxFor(m => m.Movie.Name, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.ReleaseDate)
+        @Html.TextBoxFor(m => m.Movie.ReleaseDate, "{0:d MMM yyyy}", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.GenreId)
+        @Html.DropDownListFor(
+                        m => m.Movie.GenreId, 
+                        new SelectList(Model.Genre,"Id","Name") ,
+                        "Select Genre", 
+                        new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Movie.NumberInStock)
+        @Html.TextBoxFor(m => m.Movie.NumberInStock, new { @class = "form-control" })
+    </div>
+
+
+    @*Hidden variable for ID field*@
+    @Html.HiddenFor(m=>m.Movie.Id)
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}

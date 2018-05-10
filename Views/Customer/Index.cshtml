@@ -15,17 +15,15 @@ This is a simple interface implemented by the list class. Since
 }
 
 <h2>Customers</h2>
+<p>
+    @Html.Partial("_CreateButtonPartial")
+</p>
 @if (!Model.Any())
 {
     <p>We don't have any customers yet.</p>
 }
 else
 {
-     @*  @Html.ActionLink("New Customer", "New");
-    *@
-    <p>
-        @Html.Partial("_CreateButtonPartial")
-    </p>
     <table class="table table-bordered table-hover">
         <thead>
             <tr>

@@ -26,8 +26,6 @@ namespace MovieRental.Controllers
         {
             // Include data from 2 tables - customer and Membership
             var customers = _context.Customers.Include(c => c.MembershipType).ToList();
-            // var customers = _context.Customers.ToList(); ;
-
             return View(customers);
         }
 
