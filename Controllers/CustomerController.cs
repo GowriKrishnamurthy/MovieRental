@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
-
+using MovieRental.ViewModels;
 namespace MovieRental.Controllers
 {
     public class CustomerController : Controller
@@ -25,11 +25,12 @@ namespace MovieRental.Controllers
         public ViewResult Index()
         {
             // Include data from 2 tables - customer and Membership
-            // var customers = _context.Customer.Include(c => c.MembershipType);
-            var customers = _context.Customers.ToList(); ;
+            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
+            // var customers = _context.Customers.ToList(); ;
 
             return View(customers);
         }
+
         // Details method to show details of each customer id
         public ActionResult Details(int id)
         {
@@ -37,7 +38,7 @@ namespace MovieRental.Controllers
              * SingleOrDefault - Returns the only element of a sequence, or a default value if the sequence is empty; 
              * this method throws an exception if there is more than one element in the sequence.
             */
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
                 return HttpNotFound();

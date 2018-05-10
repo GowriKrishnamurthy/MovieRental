@@ -12,7 +12,7 @@ namespace MovieRental.Migrations
         
         public override void Down()
         {
-            DropColumn("dbo.MembershipTypes", "Name");
+            DropColumn("dbo.MembershipType", "Name");
         }
     }
 }
