@@ -21,22 +21,37 @@ This is a simple interface implemented by the list class. Since
 }
 else
 {
+     @*  @Html.ActionLink("New Customer", "New");
+    *@
+    <p>
+        @Html.Partial("_CreateButtonPartial")
+    </p>
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th>Customer</th>
                 <th>Membership Type</th>
+                <th> Edit Details</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var customer in Model)
             {
                 <tr>
-                    <td>@Html.ActionLink(customer.Name, "Details", "Customer", new { id = customer.Id }, null)</td>
-                     <td>@customer.MembershipType.Name</td>
+                    <td>
+                        @Html.ActionLink(@customer.Name, "Details", "Customer", new { id = customer.Id }, null)
+                    </td>
+                     <td>@customer.MembershipType.Name
+                    </td>
+                    <td>
+                          @Html.Partial("_EditButtonPartial", customer.Id) 
+                    </td>
+
                 </tr>
             }
         </tbody>
     </table>
 }
+
+
 
