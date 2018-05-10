@@ -25,8 +25,9 @@ namespace MovieRental.Controllers
         public ViewResult Index()
         {
             // Include data from 2 tables - customer and Membership
-             var customers = _context.Customer.ToList();
-        //var customers = _context.Customer.Include(c => c.MembershipType);
+            // var customers = _context.Customer.Include(c => c.MembershipType);
+            var customers = _context.Customers.ToList(); ;
+
             return View(customers);
         }
         // Details method to show details of each customer id
@@ -36,7 +37,7 @@ namespace MovieRental.Controllers
              * SingleOrDefault - Returns the only element of a sequence, or a default value if the sequence is empty; 
              * this method throws an exception if there is more than one element in the sequence.
             */
-            var customer = _context.Customer.SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
                 return HttpNotFound();

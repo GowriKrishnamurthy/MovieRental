@@ -19,5 +19,7 @@ namespace MovieRental.Models
         
         //foreign key
         public byte MembershipTypeId { get; set; }
+
+        public DateTime? Birthdate { get; set; }
     }
 }
