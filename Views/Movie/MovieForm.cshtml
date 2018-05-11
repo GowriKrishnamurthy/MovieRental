@@ -47,6 +47,9 @@
         @Html.ValidationMessageFor(m => m.Movie.NumberInStock)
     </div>
 
+    //Set default value of Movie ID to 0
+    @Html.Hidden("Movie.Id",(Model.Movie!= null)? Model.Movie.Id:0)
+    
     @*Hidden variable for ID field*@
     @Html.HiddenFor(m=>m.Movie.Id)
 

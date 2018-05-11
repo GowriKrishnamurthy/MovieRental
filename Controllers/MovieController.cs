@@ -52,7 +52,8 @@ namespace MovieRental.Controllers
             // Create a Viewmodel as we need a view that combines 2 entities - Movie and Genre
             var viewModel = new MovieFormViewModel
             {
-                Movie= new Movie(),
+                // Commented this line below to remove initial values on the Movie Form
+                // Movie= new Movie(),
                 Genre= genre
             };
             return View("MovieForm", viewModel);
