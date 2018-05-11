@@ -59,6 +59,7 @@ namespace MovieRental.Controllers
         }
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         //This method gets called when Save button is clicked on new customer form
         public ActionResult Save(Customer customer)
         {
