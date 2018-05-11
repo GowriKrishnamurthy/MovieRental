@@ -62,6 +62,18 @@ namespace MovieRental.Controllers
         //This method gets called when Save button is clicked on new customer form
         public ActionResult Save(Customer customer)
         {
+            // Form level Validation check
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new CustomerFormViewModel
+                {
+                    Customer = customer,
+                    MembershipType = _context.MembershipTypes.ToList()
+                };
+                //If form validation failed - return to same form.
+                return View("CustomerForm", viewModel);
+            }
+            
             if (customer.Id == 0)
             {
                 //New customer
