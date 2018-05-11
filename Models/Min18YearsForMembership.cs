@@ -18,7 +18,8 @@ namespace MovieRental.Models
             // If no membership was entered or if 'Pay as you go' was selected, 
             // allow the page to go through.
             // Membership field has a separate logic to show if not entered.
-            if (customer.MembershipTypeId == 0 || customer.MembershipTypeId == 1)
+            if (customer.MembershipTypeId == (byte)MembershipType.MembershipTypeName.Unknown 
+                || customer.MembershipTypeId == (byte)MembershipType.MembershipTypeName.PayAsYouGo)
             {
                 //Pay as you go - allowed for all customers regardless of their age
                 return ValidationResult.Success;
