@@ -59,9 +59,22 @@ namespace MovieRental.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         //This method gets called when Save button is clicked on new Movie form
         public ActionResult Save(Movie movie)
         {
+            // Form level Validation check
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new MovieFormViewModel
+                {
+                    Movie = movie,
+                    Genre = _context.Genres.ToList()
+                };
+                //If form validation failed - return to same form.
+                return View("MovieForm", viewModel);
+            }
+
             //New movie
             if (movie.Id == 0)
             {

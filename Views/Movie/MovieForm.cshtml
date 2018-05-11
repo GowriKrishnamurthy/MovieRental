@@ -14,14 +14,21 @@
 
 @using (Html.BeginForm("Save", "Movie"))
 {
+    @* ValidationSummary displays all field level errors on the top*
+    @* To show the error messages as a summary , set excludePropertyErrors = false. 
+    *@
+    @Html.ValidationSummary(true, "Please fix the following errors.")
+
     <div class="form-group">
         @Html.LabelFor(m=>m.Movie.Name)
         @Html.TextBoxFor(m => m.Movie.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.Name)
     </div>
 
     <div class="form-group">
         @Html.LabelFor(m => m.Movie.ReleaseDate)
         @Html.TextBoxFor(m => m.Movie.ReleaseDate, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.ReleaseDate)
     </div>
 
     <div class="form-group">
@@ -31,16 +38,21 @@
                         new SelectList(Model.Genre,"Id","Name") ,
                         "Select Genre", 
                         new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.GenreId)
     </div>
 
     <div class="form-group">
         @Html.LabelFor(m => m.Movie.NumberInStock)
         @Html.TextBoxFor(m => m.Movie.NumberInStock, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.NumberInStock)
     </div>
-
 
     @*Hidden variable for ID field*@
     @Html.HiddenFor(m=>m.Movie.Id)
+
+    //To protect the application against cross-site request forgery.
+    //AntiforgeryToken() method will generate a token per every request so then no one can forge a form post.
+    @Html.AntiForgeryToken()
 
     <button type="submit" class="btn btn-primary">Save</button>
 }
