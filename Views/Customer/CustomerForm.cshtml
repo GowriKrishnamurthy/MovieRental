@@ -8,6 +8,9 @@
 
 @using (Html.BeginForm("Save", "Customer"))
 {
+    @* ValidationSummary displays all field level errors on the top*@
+    @* To show the error messages as a summary , set excludePropertyErrors = false. *@
+    @Html.ValidationSummary(true, "Please fix the following errors.")
     <div class="form-group">
         @Html.LabelFor(m=>m.Customer.Name)
         @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
@@ -17,6 +20,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.Birthdate)
         @Html.TextBoxFor(m => m.Customer.Birthdate, "{0:d MMM yyyy}",new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.Birthdate)
     </div>
     
     <div class="form-group">
