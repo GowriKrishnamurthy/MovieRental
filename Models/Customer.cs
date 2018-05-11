@@ -24,6 +24,9 @@ namespace MovieRental.Models
         public byte MembershipTypeId { get; set; }
 
         [Display(Name="Date of Birth")]
+        // Use custom validation
+        [Min18YearsForMembership]
+        // Birthdate is nullable
         public DateTime? Birthdate { get; set; }
     }
 }
