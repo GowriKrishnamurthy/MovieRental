@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+
 
 namespace MovieRental
 {
@@ -9,6 +12,11 @@ namespace MovieRental
     {
         public static void Register(HttpConfiguration config)
         {
+            //Settings to configure Web API to return JSON objects using Camel notation.
+            var settings = config.Formatters.JsonFormatter.SerializerSettings;
+            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            settings.Formatting = Formatting.Indented;
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

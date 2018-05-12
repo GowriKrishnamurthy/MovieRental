@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using MovieRental.Dtos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,7 +15,12 @@ namespace MovieRental.Models
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var customer = (Customer)validationContext.ObjectInstance;
+            //var customer = (Customer)validationContext.ObjectInstance;
+            Customer customer = new Customer();
+            if (validationContext.ObjectType == typeof(Customer))
+                customer = (Customer)validationContext.ObjectInstance;
+            else
+                customer = Mapper.Map((CustomerDto)validationContext.ObjectInstance, customer);
 
             // If no membership was entered or if 'Pay as you go' was selected, 
             // allow the page to go through.
