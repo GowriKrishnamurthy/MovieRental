@@ -23,11 +23,12 @@ namespace MovieRental.Controllers.Api
         }
 
         //GET all customers - api/Customers
-        public IEnumerable<CustomerDto> GetCustomers()
+        public IHttpActionResult GetCustomers()
         {
             // using Select extension method of Linq
             // Mapper converts Customer to CustomerDto
-            return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            var customerDto= _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            return Ok(customerDto);
         }
 
         //GET single customer -  api/Customers/1
@@ -65,22 +66,22 @@ namespace MovieRental.Controllers.Api
 
         //PUT - api/Customers/1
         [HttpPut]
-        public void UpdateCustomer(int id,CustomerDto customerDto)
+        public IHttpActionResult UpdateCustomer(int id,CustomerDto customerDto)
         {
             // Validate form entries
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            
+                return BadRequest();
+
             // Check if the customer is available in Db
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customerInDb == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             // copy all the values from the customer DTO object of the request body to the database object
             //Mapper.Map<CustomerDto, Customer>(customerDto,customerInDb);
             // Mapper.Map above can replaced as below
-             Mapper.Map(customerDto, customerInDb);
+            Mapper.Map(customerDto, customerInDb);
 
             /* 
              * Code below used for manual mapping can be removed as we use AutoMapper
@@ -91,23 +92,25 @@ namespace MovieRental.Controllers.Api
             */
             //Commit the changes from memory to DB
             _context.SaveChanges();
+            return Ok();
         }
 
         //DELETE - api/Customers/1
         [HttpDelete]
-        public void DeleteCustomer(int id)
+        public IHttpActionResult DeleteCustomer(int id)
         {
             // Check if the customer is available in Db
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customerInDb == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             // Remove the particualr customer row from the DB context 
             _context.Customers.Remove(customerInDb);
 
             //Commit the changes from memory to DB
             _context.SaveChanges();
+            return Ok();
         }
     }
 }

@@ -23,13 +23,14 @@ namespace MovieRental.Controllers.Api
         }
 
         //GET all movies - api/Movies
-        public IEnumerable<MovieDto> GetMovies()
+        public IHttpActionResult GetMovies()
         {
             // using Select extension method of Linq
             // Mapper converts Movie to MovieDto
-            return _context.Movies.ToList().Select(Mapper.Map<Movie, MovieDto>);
+            var movieDto= _context.Movies.ToList().Select(Mapper.Map<Movie, MovieDto>);
+            return Ok(movieDto);
         }
-
+    
         //GET single movie - api/Movies/1
         public IHttpActionResult GetMovie(int id)
         {
