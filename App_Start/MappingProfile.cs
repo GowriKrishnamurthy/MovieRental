@@ -21,6 +21,12 @@ namespace MovieRental.App_Start
             // Option defined here for ID is to just ignore..
             Mapper.CreateMap<CustomerDto, Customer>()
                 .ForMember(c => c.Id, opt => opt.Ignore());
+
+            //Mappings for Movie and Movie DTO
+            Mapper.CreateMap<Movie, MovieDto>();
+            Mapper.CreateMap<MovieDto, Movie>();
+            Mapper.CreateMap<MovieDto, Movie>()
+                .ForMember(movie => movie.Id, option => option.Ignore());
         }
     }
 }
