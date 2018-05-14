@@ -14,8 +14,8 @@ namespace MovieRental
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/bootbox.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/datatables/jquery.dataTables.js",
-                      "~/Scripts/datatables/dataTables.bootstrap.js"
+                      "~/Scripts/datatables/jquery.datatables.js",
+                      "~/Scripts/datatables/datatables.bootstrap.js"
                       ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

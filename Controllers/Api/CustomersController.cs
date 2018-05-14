@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Data.Entity;
 
 namespace MovieRental.Controllers.Api
 {
@@ -27,7 +28,10 @@ namespace MovieRental.Controllers.Api
         {
             // using Select extension method of Linq
             // Mapper converts Customer to CustomerDto
-            var customerDto= _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            var customerDto= _context.Customers
+                .Include(m=>m.MembershipType)
+                .ToList()
+                .Select(Mapper.Map<Customer, CustomerDto>);
             return Ok(customerDto);
         }
 

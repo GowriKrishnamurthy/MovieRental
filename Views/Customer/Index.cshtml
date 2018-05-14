@@ -23,13 +23,12 @@
         <tr>
             <th>Customer</th>
             <th>Membership Type</th>
-            <th>Edit</th>
             <th>Delete</th>
         </tr>
     </thead>
     <tbody></tbody>
 </table>
-        @* Web API is used to render this table.N need of this code to render customers on the server.
+        @* Web API is used to render this table.No need of this code to render customers on the server.
                 @if (!Model.Any())
                 {
                     <p>We don't have any customers yet.</p>
@@ -68,14 +67,13 @@
     }
 *@
 
-
 @* jQuery Code*@
 @section scripts
 {
     <script>
         $(document).ready(function () {
             /*DataTable used to add pagination, sorting and filtering to our Customers table*/
-            $("#customers").DataTable({
+            var table= $("#customers").DataTable({
                 ajax: {
                     url: "/api/customers",
                     dataSrc: ""
@@ -88,7 +86,7 @@
                         }
                     },
                     {
-                        data: "name"
+                        data: "membershipType.name"
                     },
                     {
                         data: "id",
@@ -111,8 +109,8 @@
                             url: "/api/customers/" + button.attr("data-customer-id"),
                             method: "DELETE",
                             success: function () {
-                                // Remove the entire row from the table on UI
-                                button.parents("tr").remove();
+                                // Remove the entire row from the table on UI and DB
+                                table.row(button.parents("tr")).remove().draw();
                             }
                         });
                     }
@@ -121,4 +119,3 @@
         });
     </script>
 }
-

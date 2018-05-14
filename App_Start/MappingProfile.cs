@@ -22,6 +22,9 @@ namespace MovieRental.App_Start
             Mapper.CreateMap<CustomerDto, Customer>();
             Mapper.CreateMap<MovieDto, Movie>();
 
+            // Domain to Dto
+            Mapper.CreateMap<MembershipType,MembershipTypeDto> ();
+
             // Dto to Domain - Update fails as DTO to Customer, updates ID field too
             // While Mapping objects, for member ID, set an option to be implemented.
             // Option defined here for ID is to just ignore.
