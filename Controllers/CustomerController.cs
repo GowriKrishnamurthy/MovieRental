@@ -24,10 +24,16 @@ namespace MovieRental.Controllers
         // Index method to show all customers from Customer table
         public ViewResult Index()
         {
+            /* No need  to get list of customers here- becaue DataTable is going to send an Ajax request 
+            to get them from customers Web api.
+
             // Include data from 2 tables - customer and Membership
             var customers = _context.Customers.Include(c => c.MembershipType).ToList();
             return View(customers);
-        }
+             */
+
+            return View();
+          }
 
         // Details method to show details of each customer id
         public ActionResult Details(int id)

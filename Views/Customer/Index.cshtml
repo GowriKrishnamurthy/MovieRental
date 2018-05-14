@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<MovieRental.Models.Customer>
 @*
-This is a simple interface implemented by the list class. Since
-    in this view we only want to iterate over this list, and we don't
-    need any of the operations in the List class (eg Add, Remove, etc),
-    it's better to use the IEnumerable interface, which allows use to
-    iterate over the list. If in the future, we replace the List with a
-    different data structure, as long as it is enumerable, our view code
-    will remain unchanged.
+    This is a simple interface implemented by the list class. Since
+        in this view we only want to iterate over this list, and we don't
+        need any of the operations in the List class (eg Add, Remove, etc),
+        it's better to use the IEnumerable interface, which allows use to
+        iterate over the list. If in the future, we replace the List with a
+        different data structure, as long as it is enumerable, our view code
+        will remain unchanged.
 *@
 
 @{
@@ -18,49 +18,86 @@ This is a simple interface implemented by the list class. Since
 <p>
     @Html.Partial("_CreateButtonPartial")
 </p>
-@if (!Model.Any())
-{
-    <p>We don't have any customers yet.</p>
-}
-else
-{
-    <table id="customers" class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>Customer</th>
-                <th>Membership Type</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var customer in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.ActionLink(@customer.Name, "Details", "Customer", new { id = customer.Id }, null)
-                    </td>
-                     <td>@customer.MembershipType.Name
-                    </td>
-                    <td>
-                          @Html.Partial("_EditButtonPartial", customer.Id) 
-                    </td>
-                    <td>
-                        <button data-customer-id="@customer.Id" class="btn-link js--delete">Delete</button>
-                    </td>
-                </tr>
-            }
+<table id="customers" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Membership Type</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+        @* Web API is used to render this table.N need of this code to render customers on the server.
+                @if (!Model.Any())
+                {
+                    <p>We don't have any customers yet.</p>
+                }
+                else
+                {
+                    <table id="customers" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Membership Type</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                   @foreach (var customer in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(@customer.Name, "Details", "Customer", new { id = customer.Id }, null)
+                            </td>
+                             <td>@customer.MembershipType.Name
+                            </td>
+                            <td>
+                                  @Html.Partial("_EditButtonPartial", customer.Id)
+                            </td>
+                            <td>
+                                <button data-customer-id="@customer.Id" class="btn-link js--delete">Delete</button>
+                            </td>
+                        </tr>
+                    }
+
         </tbody>
     </table>
-}
+    }
+*@
+
 
 @* jQuery Code*@
 @section scripts
 {
     <script>
         $(document).ready(function () {
-            /*To add pagination, sorting and filtering to our Customers table*/
-            $("#customers").DataTable();
+            /*DataTable used to add pagination, sorting and filtering to our Customers table*/
+            $("#customers").DataTable({
+                ajax: {
+                    url: "/api/customers",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, customer) {
+                            return "<a href='/customers/edit/" + customer.id + "'>" + customer.name + "</a>";
+                        }
+                    },
+                    {
+                        data: "name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn-link js--delete' data-customer-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
 
             /* for all elements under id-customers and class js--delete*/
             /* use jQuery on method to call a callback method to handle click event*/
@@ -82,6 +119,6 @@ else
                 });
             });
         });
-    </script>    
+    </script>
 }
 
