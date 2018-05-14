@@ -59,6 +59,9 @@ else
 {
     <script>
         $(document).ready(function () {
+            /*To add pagination, sorting and filtering to our Customers table*/
+            $("#customers").DataTable();
+
             /* for all elements under id-customers and class js--delete*/
             /* use jQuery on method to call a callback method to handle click event*/
             $("#customers").on("click", ".js--delete", function () {
