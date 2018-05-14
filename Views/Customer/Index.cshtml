@@ -61,7 +61,7 @@ else
         $(document).ready(function () {
             /* for all elements under id-customers and class js--delete*/
             /* use jQuery on method to call a callback method to handle click event*/
-            $("#customers .js--delete").on("click", function () {
+            $("#customers").on("click", ".js--delete", function () {
                 var button = $(this);
                 /*BOOTBOX confirmation box- takes call back function as 2nd param)*/
                 bootbox.confirm("Are you sure you want to delete this customer?", function (result) {
