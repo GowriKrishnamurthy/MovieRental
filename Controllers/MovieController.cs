@@ -25,8 +25,9 @@ namespace MovieRental.Controllers
         public ViewResult Index()
         {
             // Include data from 2 tables - Movie and Genre
-            var movies = _context.Movies.Include(g => g.Genre).ToList();
-            return View(movies);
+            //var movies = _context.Movies.Include(g => g.Genre).ToList();
+            //return View(movies);
+            return View();
         }
 
         // Details method to show details of each movie id

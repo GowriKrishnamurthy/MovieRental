@@ -24,6 +24,7 @@ namespace MovieRental.App_Start
 
             // Domain to Dto
             Mapper.CreateMap<MembershipType,MembershipTypeDto> ();
+            Mapper.CreateMap<Genre, GenreDto>();
 
             // Dto to Domain - Update fails as DTO to Customer, updates ID field too
             // While Mapping objects, for member ID, set an option to be implemented.
