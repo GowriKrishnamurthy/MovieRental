@@ -63,18 +63,20 @@ else
             /* use jQuery on method to call a callback method to handle click event*/
             $("#customers .js--delete").on("click", function () {
                 var button = $(this);
-                if (confirm("Are you sure you want to delete this customer?")) {
-                    $.ajax({
-                        // Call the WEB API for DELETE action
-                        url:"/api/customers/" + $(this).attr("data-customer-id"),
-                        method: "DELETE",
-                        success: function () {
-                            // Remove the entire row from the table on UI
-                            button.parents("tr").remove();
-                        }
-                    });
-                }
-
+                /*BOOTBOX confirmation box- takes call back function as 2nd param)*/
+                bootbox.confirm("Are you sure you want to delete this customer?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            // Call the WEB API for DELETE action
+                            url: "/api/customers/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+                                // Remove the entire row from the table on UI
+                                button.parents("tr").remove();
+                            }
+                        });
+                    }
+                });
             });
         });
     </script>    
