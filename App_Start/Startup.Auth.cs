@@ -54,9 +54,11 @@ namespace MovieRental
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            // Enable login via Facebook account
+            // Get the AppID and secret code from Facebook developer page
+            app.UseFacebookAuthentication(
+               appId: "abcd",
+               appSecret: "1234");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
