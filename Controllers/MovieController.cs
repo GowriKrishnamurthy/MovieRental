@@ -25,9 +25,14 @@ namespace MovieRental.Controllers
         public ViewResult Index()
         {
             // Include data from 2 tables - Movie and Genre
-            //var movies = _context.Movies.Include(g => g.Genre).ToList();
-            //return View(movies);
-            return View();
+            // var movies = _context.Movies.Include(g => g.Genre).ToList();
+            // return View(movies);
+
+            // Load views depending on the User role
+            if (User.IsInRole(Constants.CanManageMovies))
+                return View("List");
+
+            return View("ReadOnlyList");
         }
 
         // Details method to show details of each movie id
@@ -44,6 +49,9 @@ namespace MovieRental.Controllers
 
             return View(movies);
         }
+
+        // Show this New movie page only to the users with the role set to CanManageMovies
+        [Authorize(Roles = Constants.CanManageMovies)]
 
         // On click of New Movie button, this method gets called to populate page with defaults
         public ActionResult New()
@@ -103,6 +111,9 @@ namespace MovieRental.Controllers
             //Once the changes from DB contexts are committed to DB, Home page of movie gets loaded
             return RedirectToAction("Index", "Movie");
         }
+
+        // Only authorized users can edit 
+        [Authorize(Roles = Constants.CanManageMovies)]
 
         // On click of Edit movie button, this method gets called
         public ActionResult Edit(int id)

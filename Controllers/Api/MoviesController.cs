@@ -46,6 +46,10 @@ namespace MovieRental.Controllers.Api
 
         //Create movie - api/Movies/
         [HttpPost]
+
+        // This action is allowed only to the super users (with the role set to CanManageMovies)
+        [Authorize(Roles = Constants.CanManageMovies)]
+
         public IHttpActionResult CreateMovie(MovieDto movieDto)
         {
             // Validate form entries
@@ -68,6 +72,10 @@ namespace MovieRental.Controllers.Api
 
         //Update movie - api/Movies/1
         [HttpPut]
+
+        // This action is allowed only to the super users (with the role set to CanManageMovies)
+        [Authorize(Roles = Constants.CanManageMovies)]
+
         public IHttpActionResult UpdateMovie(int id, MovieDto movieDto)
         {
             // Validate form entries
@@ -91,6 +99,10 @@ namespace MovieRental.Controllers.Api
 
         //DELETE - api/Movie/1
         [HttpDelete]
+
+        // This action is allowed only to the super users (with the role set to CanManageMovies)
+        [Authorize(Roles = Constants.CanManageMovies)]
+
         public IHttpActionResult DeleteMovie(int id)
         {
             // Check if the movie is available in Db
