@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MovieRental.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MovieRental.Controllers
 {
@@ -155,6 +156,19 @@ namespace MovieRental.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // Temporary code to create Initial Admin user for the app
+                    //// Create a role store
+                    //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+
+                    //// Create a role manager
+                    //var roleManager = new RoleManager<IdentityRole>(roleStore);
+
+                    //// Create a role named - CanManageMovies
+                    //await roleManager.CreateAsync(new IdentityRole("CanManageMovies"));
+
+                    //// Assign this new user to our new role - pass the user id and role
+                    //await UserManager.AddToRoleAsync(user.Id, "CanManageMovies");
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
