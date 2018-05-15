@@ -152,12 +152,13 @@ namespace MovieRental.Controllers
         {
             if (ModelState.IsValid)
             {
-                /*While initializing the user details, pass Driving License details as well*/
+                /*While initializing the user details, pass Phone and Driving License details*/
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    DrivingLicense = model.DrivingLicense
+                    DrivingLicense = model.DrivingLicense,
+                    Phone = model.Phone
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -393,7 +394,8 @@ namespace MovieRental.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    DrivingLicense=model.DrivingLicense
+                    DrivingLicense = model.DrivingLicense,
+                    Phone = model.Phone
                 };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)

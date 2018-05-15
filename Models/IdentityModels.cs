@@ -10,6 +10,11 @@ namespace MovieRental.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        /* New field Phone added to the default Registration page */
+        [Required]
+        [StringLength(50)]
+        public string Phone { get; set; }
+        
         /* New field driving license added on Registration page for security reasons*/
         [Required]
         [StringLength(255)]

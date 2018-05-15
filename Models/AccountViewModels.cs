@@ -5,6 +5,10 @@ namespace MovieRental.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
+        // Added new field phone on Registration page via social login
+        [Required]
+        [StringLength(50)]
+        public string Phone { get; set; }
 
         [Required]
         [Display(Name = "Driving License")]
@@ -74,6 +78,13 @@ namespace MovieRental.Models
         [Display(Name = "Driving License")]
         [StringLength(255)]
         public string DrivingLicense { get; set; }
+
+        // New field - phone added to the default Registration page 
+        [Required]
+        [StringLength(50)]
+        public string Phone{ get; set; }
+
+
 
         [Required]
         [EmailAddress]
