@@ -265,6 +265,10 @@
     <Compile Include="Migrations\201805150124313_SeedUsers.Designer.cs">
       <DependentUpon>201805150124313_SeedUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805150225538_AddDrivingLicenseToAppUsers.cs" />
+    <Compile Include="Migrations\201805150225538_AddDrivingLicenseToAppUsers.Designer.cs">
+      <DependentUpon>201805150225538_AddDrivingLicenseToAppUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Constants.cs" />
@@ -579,6 +583,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805150124313_SeedUsers.resx">
       <DependentUpon>201805150124313_SeedUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805150225538_AddDrivingLicenseToAppUsers.resx">
+      <DependentUpon>201805150225538_AddDrivingLicenseToAppUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

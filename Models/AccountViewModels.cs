@@ -64,6 +64,12 @@ namespace MovieRental.Models
 
     public class RegisterViewModel
     {
+        /* New field driving license added on Registration page for security reasons*/
+        [Required]
+        [Display(Name = "Driving License")]
+        [StringLength(255)]
+        public string DrivingLicense { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
