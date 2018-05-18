@@ -8,14 +8,14 @@
     <div class="form-group">
         <label>Customer</label>
         <div class="tt-container">
-            <input id="customer" required type="text" value="" class="form-control" />
+            <input id="customer" name="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
         </div>
     </div>
 
     <div class="form-group">
         <label>Movie</label>
         <div class="tt-container">
-            <input id="movie" type="text" value="" class="form-control" />
+            <input id="movie" name="movie" data-rule-atLeastOneMovie="true" type="text" value="" class="form-control" />
         </div>
     </div>
 
@@ -32,17 +32,19 @@
 <!-- jQuery plugin from typeahead -->
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
+
     <script>
         $(document).ready(function () {
-            var vm = {
+    var vm = {
                 // Property name of VM should be matching with that of NewRentals DTO
                 MovieIds: []
             };
 
-            var customers = new Bloodhound({
+    var customers = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: {
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
                     @* Whatever the user types on the text box will be placed here at % QUERY at run time *@
                     url: '/api/customers?query=%QUERY',
                     wildcard: '%QUERY'
@@ -87,9 +89,20 @@
                     vm.MovieIds.push(movie.id);
                 });
 
+            @* Custom validator method to check if customer entered is valid *@
+            $.validator.addMethod("validCustomer", function () {
+                return vm.CustomerId && vm.CustomerId !== 0;
+            },"Please select a valid customer");
 
-            $("#newRental").submit(function (e) {
-                e.preventDefault(); // to avoid the form submitting default form values
+            @* Custom validator method to check if atleast one movie is added*@
+            $.validator.addMethod("atLeastOneMovie", function () {
+                return vm.MovieIds.length > 0;
+            }, "Please select atleast one movie");
+
+
+            @* Submit the form only after successful validation*@
+            var validator = $("#newRental").validate({
+                submitHandler: function () {
                     $.ajax({
                         url: "/api/newRentals",
                         method: "post",
@@ -97,10 +110,24 @@
                     })
                     .done(function () {
                         toastr.success("Rentals successfully recorded.");
+
+                        // If the form is submitted successffuly, clear the values on the page.
+                        $("#customer").typeahead("val", "");
+                        $("#movie").typeahead("val", "");
+                        $("#movies").empty();
+
+                        // Reset the view model
+                        vm = { MovieIds: [] };
+
+                        // Reset the form validation
+                        validator.resetForm();
                     })
                     .fail(function () {
                         toastr.error("Something unexpected happened.")
-                    });
+                        });
+                    // to avoid the form submitting default form values
+                    return false;
+                }
             });
         });
     </script>
