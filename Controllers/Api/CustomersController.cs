@@ -24,14 +24,23 @@ namespace MovieRental.Controllers.Api
         }
 
         //GET all customers - api/Customers
-        public IHttpActionResult GetCustomers()
+        public IHttpActionResult GetCustomers(string query = null)
         {
+            // query param - typeahead plugin would send a query param here for AutoCompletion 
+            //customersQuery iQueryable object. Apply Filter and then execure the query with ToList()
+            var customersQuery = _context.Customers
+                .Include(c => c.MembershipType);
+
+            // Apply the filter if the query string was passed
+            if (!String.IsNullOrWhiteSpace(query))
+                customersQuery = customersQuery.Where(c => c.Name.Contains(query));
+
             // using Select extension method of Linq
             // Mapper converts Customer to CustomerDto
-            var customerDto= _context.Customers
-                .Include(m=>m.MembershipType)
+            var customerDto = customersQuery
                 .ToList()
                 .Select(Mapper.Map<Customer, CustomerDto>);
+
             return Ok(customerDto);
         }
 
@@ -42,8 +51,9 @@ namespace MovieRental.Controllers.Api
 
             // customer object thats returned can be simply mapped to Dto,passing the customer object.
             if (customer == null)
-               return NotFound();
-            return Ok(Mapper.Map<Customer, CustomerDto>(customer)); 
+                return NotFound();
+
+            return Ok(Mapper.Map<Customer, CustomerDto>(customer));
         }
 
         //POST - api/Customers
@@ -65,12 +75,12 @@ namespace MovieRental.Controllers.Api
 
             //Return the Created Status Code as 201 Created(as per the RESTful Convention
             // Param:1-URI,2-object created.
-            return Created(new Uri(Request.RequestUri + "/" + customer.Id),customerDto);
+            return Created(new Uri(Request.RequestUri + "/" + customer.Id), customerDto);
         }
 
         //PUT - api/Customers/1
         [HttpPut]
-        public IHttpActionResult UpdateCustomer(int id,CustomerDto customerDto)
+        public IHttpActionResult UpdateCustomer(int id, CustomerDto customerDto)
         {
             // Validate form entries
             if (!ModelState.IsValid)

@@ -24,14 +24,20 @@ namespace MovieRental.Controllers.Api
         }
 
         //GET all movies - api/Movies
-        public IHttpActionResult GetMovies()
+        public IHttpActionResult GetMovies(string query = null)
         {
-            // using Select extension method of Linq
-            // Mapper converts Movie to MovieDto
-            var movieDto= _context.Movies
-                .Include(g=>g.Genre)                
+            // Get movies that are only available
+            var moviesQuery = _context.Movies
+                .Include(m => m.Genre);
+
+            // Filter based on the query passed, and only pick available movies
+            if (!String.IsNullOrWhiteSpace(query))
+                moviesQuery = moviesQuery.Where(m => m.Name.Contains(query) && m.NumberAvailable > 0);
+
+            var movieDto = moviesQuery
                 .ToList()
                 .Select(Mapper.Map<Movie, MovieDto>);
+
             return Ok(movieDto);
         }
     

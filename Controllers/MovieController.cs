@@ -90,6 +90,7 @@ namespace MovieRental.Controllers
             {
                 // Added time is the current system time.
                 movie.DateAdded = DateTime.Now;
+                movie.NumberAvailable = movie.NumberInStock;
                 _context.Movies.Add(movie);
             }
             //existing movie - Edit changes
@@ -103,7 +104,7 @@ namespace MovieRental.Controllers
                 //Added time will not be allowed to be edited
                 //movieInDb.DateAdded = movie.DateAdded;
                 movieInDb.ReleaseDate= movie.ReleaseDate;
-                movieInDb.NumberInStock = movie.NumberInStock;
+                movieInDb.NumberAvailable = movie.NumberInStock;
                 //Alternative options to save to Db
             }
             _context.SaveChanges();

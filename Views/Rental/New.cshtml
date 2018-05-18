@@ -1,36 +1,55 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "New Rental Form";
 }
 
-<h2>New</h2>
-<form>
+<h2>New Rental Form</h2>
+
+<form id="newRental">
     <div class="form-group">
-        <label> Customer </label>
-        <input id="customer" type ="text" value="" class="form-control" />
+        <label>Customer</label>
+        <div class="tt-container">
+            <input id="customer" required type="text" value="" class="form-control" />
+        </div>
     </div>
 
     <div class="form-group">
-        <label> Movie </label>
-        <input type="text" value=""  class="form-control" />
+        <label>Movie</label>
+        <div class="tt-container">
+            <input id="movie" type="text" value="" class="form-control" />
+        </div>
     </div>
-    <button class="btn btn-primary"> Submit</button>
+
+    <!-- Bootstrap grid class -->
+    <div class="row">
+        <div class="col-md-4 col-sm-4">
+            <ul id="movies" class="list-group"></ul>
+        </div>
+    </div>
+
+    <button class="btn btn-primary">Submit</button>
 </form>
 
 <!-- jQuery plugin from typeahead -->
-@section scripts{
+@section scripts
+{
     <script>
         $(document).ready(function () {
-            
+            var vm = {
+                // Property name of VM should be matching with that of NewRentals DTO
+                MovieIds: []
+            };
+
             var customers = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 remote: {
+                    @* Whatever the user types on the text box will be placed here at % QUERY at run time *@
                     url: '/api/customers?query=%QUERY',
                     wildcard: '%QUERY'
                 }
             });
 
+            @* id of the text box for customer  *@
             $('#customer').typeahead({
                 minLength: 3,
                 highlight: true
@@ -38,7 +57,51 @@
                     name: 'customers',
                     display: 'name',
                     source: customers
+                }).on("typeahead:select", function (e, customer) {
+                    @* When a customer was selected, set that customer ID to ViewModel*@
+                    vm.CustomerId = customer.id;
                 });
+
+            var movies = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: '/api/movies?query=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+
+            $('#movie').typeahead({
+                minLength: 3,
+                highlight: true
+            }, {
+                    name: 'movies',
+                    display: 'name',
+                    source: movies
+                }).on("typeahead:select", function (e, movie) {
+                    @* When a movie was selected, add it to movies list and set push the IDs to ViewModel*@
+                    $("#movies").append("<li class='list-group-item'>" + movie.name + "</li>");
+
+                    $("#movie").typeahead("val", "");
+
+                    vm.MovieIds.push(movie.id);
+                });
+
+
+            $("#newRental").submit(function (e) {
+                e.preventDefault(); // to avoid the form submitting default form values
+                    $.ajax({
+                        url: "/api/newRentals",
+                        method: "post",
+                        data: vm
+                    })
+                        .done(function () {
+                            console.log("Success");
+                        })
+                        .fail(function () {
+
+                        });
+            });
         });
     </script>
 }
