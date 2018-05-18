@@ -95,12 +95,12 @@
                         method: "post",
                         data: vm
                     })
-                        .done(function () {
-                            console.log("Success");
-                        })
-                        .fail(function () {
-
-                        });
+                    .done(function () {
+                        toastr.success("Rentals successfully recorded.");
+                    })
+                    .fail(function () {
+                        toastr.error("Something unexpected happened.")
+                    });
             });
         });
     </script>
